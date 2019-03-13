@@ -1,0 +1,36 @@
+{layout name="public:layout" /}
+
+<h4 class="text-center text-success">用户列表</h4>
+<table class="table table-default table-hover text-center">
+    <tr>
+        <td>ID</td>
+        <td>用户名</td>
+        <td>邮箱</td>
+        <td>手机号</td>
+        <td>注册时间</td>
+        <td>状态</td>
+        <td colspan="2">操作</td>
+    </tr>
+    {volist name="userList" id="user" empty="empty"}
+    <tr>
+        <td>{$user.id}</td>
+        <td>{$user.username}</td>
+        <td>{$user.email}</td>
+        <td>{$user.mobile}</td>
+        <td>{$user.create_time}</td>
+        <td>{$user.status}</td>
+        {eq name="$Think.session.admin_id" value="$user.id"}
+        <td><a href="{:url('admin/user/userEdit',['id'=>$user.id])}">编辑</a></td>
+        {else /}
+        <td><a href="javascript:void(0)" onclick="del('{$user.id}')">删除</a></td>
+        {/eq}
+    </tr>
+    {/volist}
+</table>
+<script>
+    function del(id){ 
+        if (confirm('确定要删除吗?') == true){
+            window.location.href = "/admin/user/userDelete?id="+id;
+        }
+    }
+</script>
